@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Scanner;
-import java.util.Vector;
+import java.util.*;
 
 public class main {
 
@@ -12,12 +9,12 @@ public class main {
 
         int size= scn.nextInt();
 
-        ArrayList<Integer> nums=new ArrayList<>();
+        int[] nums=new int[size];
 
         for (int i=0;i<size;i++){
 
             System.out.println("Gimme your #: ");
-            nums.add(scn.nextInt());
+            nums[i]= scn.nextInt() ;
         }
 
 
@@ -27,12 +24,14 @@ public class main {
 
     }
 
-    public static int firstMissingPositive(ArrayList<Integer> listOfNums){
+    public static int firstMissingPositive(int[] listOfNums){
 
 
 
 
-        for (int a=0;a< listOfNums.size();a++) {
+
+
+      /**  for (int a=0;a< listOfNums.length ;a++) {
 
             if (listOfNums.get(a) <= 0){
                 listOfNums.remove(a);
@@ -42,26 +41,58 @@ public class main {
             }
 
 
+        }**/
+
+      if(listOfNums.length == 1){
+          if (listOfNums[0] <= 0){
+              return 1;
+          }
+          else if(listOfNums[0] == 1){
+              return 2;
+          }
+          else {
+              return 1;
+          }
+      }
+
+
+
+        ArrayList<Integer> ints =new ArrayList<>();
+
+        for(int k:listOfNums){
+            if (k>0 && !ints.contains(k)){
+                ints.add(k);
+            }
         }
 
-        Collections.sort(listOfNums);
+        if(ints.size() == 0 ){
+            return 1;
+
+        }
+
+        Set<Integer> set = new HashSet<>(ints);
+        ints.clear();
+        ints.addAll(set);
+
+        Collections.sort(ints);
+
+
+        int ourNum=1;
+        for (int b=1;b<= ints.get(ints.size()-1);b++){
 
 
 
-
-
-
-        for (int b=1;b<= listOfNums.get(listOfNums.size()-1)+1;b++){
-
-            if (b> listOfNums.get(listOfNums.size()-1)) {
-                return b;
+            if (b == ints.get(ints.size()-1)) {
+                ourNum = b+1;
+                break;
 
             }
 
 
-            else if(b != listOfNums.get(b-1)){
+             if(b < ints.get(b-1)){
 
-                return b;
+                 ourNum = b;
+                 break;
 
             }
 
@@ -71,8 +102,8 @@ public class main {
 
         }
 
-        return 0;
 
+        return ourNum;
 
     }
 
